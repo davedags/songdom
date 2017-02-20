@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Song } from './song';
 import { URLSearchParams, Http} from "@angular/http";
+import { environment } from '../environments/environment';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class SongService {
 
-  private apiUrl = 'api/search';
+  //private apiUrl = 'api/search';
+  private apiUrl = environment.searchAPIUrl;
 
   constructor(private http: Http) {}
 

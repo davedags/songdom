@@ -31,6 +31,9 @@ src/**/.js.map
 /e2e/*.js
 /e2e/*.map
 
+#logs
+error_log*
+
 #System Files
 .DS_Store
 Thumbs.db
