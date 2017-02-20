@@ -1,0 +1,12 @@
+{
+  "name": "davedags/songdom2",
+  "description": "Search engine for song lyrics, ad free and with voice control",
+  "require" : {
+    "slim/slim": "^3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Songdom\\": "backend_src/"
+    }
+  }
+}

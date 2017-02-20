@@ -1,0 +1,12 @@
+<div *ngIf="song.url" class="lyrics-text">
+  <h5>
+    <a href="{{ song.url }}" target="_blank" title="Open In New Window" style="text-decoration: underline">
+      http:{{ song.url }}
+    </a>
+  </h5>
+  <ul style="list-style:none;">
+    <li *ngFor="let line of song.lyrics">
+      {{line}}
+    </li>
+  </ul>
+</div>

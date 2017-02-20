@@ -1,0 +1,10 @@
+<div class="page-content">
+  <form #searchForm="ngForm">
+    <input [(ngModel)]="searchTerm" name="searchQuery" type="search" placeholder="Enter Song Name ..." class="form-control input-md" #searchInput required autofocus/>
+    <div class="search-btn-group">
+      <button (click)="getSong()" name="search" class="btn btn-primary" [disabled]="!searchForm.form.valid">Find My Song</button>
+      <button (click)="clearSearch(searchInput)" *ngIf="searchTerm" name="clear" class = "btn">Start Over</button>
+    </div>
+  </form>
+  <song-detail [song]="songResult"></song-detail>
+</div>
