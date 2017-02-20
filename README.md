@@ -18,6 +18,6 @@ Lyrics Search Engine, Ad Free
 - Clone Repository
 - composer install
 - npm install
-- ng build --environment=production
+- ng build --environment=prod
 - Serve doc root (apache or nginx) from dist folder
 - ln -s dist/api src/api
