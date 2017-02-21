@@ -6,5 +6,5 @@
       <button (click)="clearSearch(searchInput)" *ngIf="searchTerm" name="clear" class = "btn">Start Over</button>
     </div>
   </form>
-  <song-detail [song]="songResult"></song-detail>
+  <song-detail [song]="songResult" [haveSearched]="haveSearched"></song-detail>
 </div>

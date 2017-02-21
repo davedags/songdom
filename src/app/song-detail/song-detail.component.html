@@ -10,3 +10,8 @@
     </li>
   </ul>
 </div>
+<div *ngIf="!song.url && haveSearched" class="alert-search-no-results">
+  <alert>
+    <strong>Oops!</strong> No songs found - please try again.
+  </alert>
+</div>

@@ -107,6 +107,9 @@ class Songs
      **/
     public function getSong($field, $match) 
     {
+        if (!$this->usingDB()) {
+            return false;
+        }
         $sql = "select song_id, title, lyrics, url from song where $field = " . $this->db->quote($match);
         try {
             $stmt = $this->db->query($sql);
@@ -129,6 +132,9 @@ class Songs
 
     public function saveSong($song) 
     {
+        if (!$this->usingDB()) {
+            return false;
+        }
         $prepare_sql = "insert into song (" . implode(", ", array_keys($song)) . ") values (" . implode(", ", array_map(function($x) { return ":" . $x; }, array_keys($song))) . ")";
         
         $stmt = $this->db->prepare($prepare_sql);
@@ -141,6 +147,14 @@ class Songs
         return true;
     }
 
+    public function usingDB() {
+        if (is_object($this->db)) {
+            return true;
+        } else{
+            return false;
+        }
+    }
+    
     public static function cleanURL($url) 
     {
         if (substr($url, 0, 2) == '//') {

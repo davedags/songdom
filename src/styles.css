@@ -45,7 +45,12 @@ body {
     font-size: 13px;
     margin-top: 15px;
 }
-
+.alert-search-no-results {
+    padding-top: 20px;
+    margin: auto;
+    width: 50%;
+    position: inherit;
+}
 .lyrics-suggestions {
     font-size: 9px;
 }

@@ -11,4 +11,11 @@ export class SongDetailComponent {
   @Input()
   song: Song;
 
+  @Input()
+  haveSearched: boolean;
+
+  constructor() {
+    this.haveSearched = false;
+  }
+
 }
