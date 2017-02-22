@@ -17,6 +17,8 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
   songResult: Song;
   searchTerm: string;
   haveSearched: boolean;
+  speechSupported: boolean;
+  speechListening: boolean;
   speechData: string;
 
   constructor(private songService: SongService, private speechRecognitionService: SpeechRecognitionService) {
@@ -24,6 +26,13 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
     this.haveSearched = false;
     this.searchTerm = '';
     this.songResult = new Song;
+    if ('webkitSpeechRecognition' in window) {
+      this.speechSupported = true;
+      this.speechListening = true;
+    } else {
+      this.speechSupported = false;
+      this.speechListening = false;
+    }
   }
 
   ngAfterViewInit() {
@@ -55,27 +64,45 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
   }
 
   activateSpeechSearch(): void {
-
-    this.speechRecognitionService.record()
-        .subscribe(
-            //listener
-            (value) => {
-              this.searchTerm = value;
-              this.getSong();
-            },
-            //errror
-            (err) => {
-              if (err.error == "no-speech") {
+    if (this.speechSupported == true) {
+      this.speechRecognitionService.record()
+          .subscribe(
+              //listener
+              (value) => {
+                if (value == 'voice') {
+                  this.speechListening = !this.speechListening;
+                } else {
+                  if (this.speechListening) {
+                    if (this.searchTerm == '') {
+                      this.searchTerm = value;
+                      this.getSong();
+                    } else if (value == 'clear') {
+                      this.reset();
+                    }
+                  }
+                }
+                if (value == 'disable voice') {
+                  this.disableSpeechSearch();
+                  this.speechSupported = false;
+                }
+              },
+              //error
+              (err) => {
+                if (err.error == "no-speech") {
+                  this.activateSpeechSearch();
+                }
+              },
+              //completion
+              () => {
+                console.log('in completion function');
                 this.activateSpeechSearch();
-              }
-            },
-            //completion
-            () => {
-              this.activateSpeechSearch();
-            });
+              });
+    }
   }
 
   disableSpeechSearch(): void {
-    this.speechRecognitionService.DestroySpeechObject();
+    if (this.speechSupported == true) {
+      this.speechRecognitionService.DestroySpeechObject();
+    }
   }
 }

@@ -18,6 +18,7 @@ export class SpeechRecognitionService {
 
     return Observable.create(observer => {
       const { webkitSpeechRecognition }: IWindow = <IWindow>window;
+      
       this.speechRecognition = new webkitSpeechRecognition();
       //this.speechRecognition = SpeechRecognition;
       this.speechRecognition.continuous = true;
