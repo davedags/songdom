@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AlertModule } from 'ng2-bootstrap/alert';
-import { UiSwitchModule } from 'angular2-ui-switch';
+import { UiSwitchModule } from 'angular2-ui-switch/src';
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
 import { SongDetailComponent } from './song-detail/song-detail.component';
@@ -18,8 +18,9 @@ import { SongDetailComponent } from './song-detail/song-detail.component';
     BrowserModule,
     FormsModule,
     HttpModule,
-    AlertModule.forRoot(),
-    UiSwitchModule
+    UiSwitchModule,
+    AlertModule.forRoot()
+
   ],
   providers: [],
   bootstrap: [AppComponent]

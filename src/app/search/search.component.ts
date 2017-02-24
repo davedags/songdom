@@ -17,8 +17,8 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
   songResult: Song;
   searchTerm: string;
   haveSearched: boolean;
-  speechSupported: boolean;
   speechListening: boolean;
+  speechSupported: boolean;
   speechData: string;
 
   constructor(private songService: SongService, private speechRecognitionService: SpeechRecognitionService) {
@@ -65,6 +65,7 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
 
   activateSpeechSearch(): void {
     if (this.speechSupported == true) {
+
       this.speechRecognitionService.record()
           .subscribe(
               //listener
@@ -94,7 +95,6 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
               },
               //completion
               () => {
-                console.log('in completion function');
                 this.activateSpeechSearch();
               });
     }
