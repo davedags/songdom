@@ -1,7 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { SpeechRecognitionService } from '../speech-recognition.service'
-import { Song } from '../song';
-import { SongService } from '../song.service';
+import { Song, SongService } from '../song.service';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +24,7 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
     this.speechData = '';
     this.haveSearched = false;
     this.searchTerm = '';
-    this.songResult = new Song;
+    this.songResult = new Song('', '');
     if ('webkitSpeechRecognition' in window) {
       this.speechSupported = true;
       this.speechListening = true;

@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Song } from './song';
 import { URLSearchParams, Http} from "@angular/http";
 import { environment } from '../environments/environment';
 import 'rxjs/add/operator/toPromise';
+
+export class Song {
+  constructor(public url: any, public lyrics: any) {}
+}
 
 @Injectable()
 export class SongService {
