@@ -1,26 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { AlertModule } from 'ng2-bootstrap/alert';
-import { UiSwitchModule } from 'angular2-ui-switch/src';
+
+/* App Root */
 import { AppComponent } from './app.component';
-import { SearchComponent } from './search/search.component';
-import { SongDetailComponent } from './song-detail/song-detail.component';
+
+/* Features Modules */
+import { SearchModule } from './search/search.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SearchComponent,
-    SongDetailComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule,
-    UiSwitchModule,
-    AlertModule.forRoot()
-
+    SearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

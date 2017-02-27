@@ -3,8 +3,7 @@ import { Song } from '../song';
 
 @Component({
   selector: 'song-detail',
-  templateUrl: './song-detail.component.html',
-  styleUrls: ['./song-detail.component.css']
+  templateUrl: './song-detail.component.html'
 })
 export class SongDetailComponent {
   
