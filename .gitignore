@@ -40,3 +40,6 @@ Thumbs.db
 
 #DB Creds
 backend_src/config/.env
+
+#local
+local

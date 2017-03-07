@@ -28,13 +28,14 @@ class Songs
         if (!empty($args['keywords'])) {
             $keywords = $args['keywords'];
             $song = $this->getSongByKeywords($keywords);
+         
             if ($song) {
                 $data = [
                     'url' => $song['url'],
                     'lyrics' => $song['lyrics']
                 ];
             } else {
-                
+             
                 $searchurl = 'http://songmeanings.com/query/?query=' . urlencode($keywords);
                 $resp = file_get_contents($searchurl);
                 preg_match_all('|//songmeanings\.com/songs/view/(\d+)/|i', $resp, $matches);
@@ -79,7 +80,7 @@ class Songs
                 'created' => date('Y-m-d H:i:s')
             ];
             if (!empty($args['keywords'])) {
-                $song_data['keywords'] = $keywords;
+                $song_data['keywords'] = $args['keywords'];
             }
             $this->saveSong($song_data);
         }
@@ -119,7 +120,7 @@ class Songs
         }
         $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         $song_data = false;
-               
+
         if (is_array($row) && isset($row[0]) && is_array($row[0]) && ($lyrics = $row[0]['lyrics'])) {
             $song_data = [
                 'song_id' => $row[0]['song_id'],
