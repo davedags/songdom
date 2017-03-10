@@ -19,6 +19,6 @@ CREATE TABLE if not exists `user` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`user_id`),
-  KEY `username` (`username`),
+  KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
