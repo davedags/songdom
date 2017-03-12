@@ -8,7 +8,7 @@
 
 namespace Songdom\Service;
 
-class Songs
+class Song
 {
 
     protected $db = null;

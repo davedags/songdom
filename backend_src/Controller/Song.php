@@ -16,7 +16,7 @@ class Song
     public function __construct($container) 
     {
         $this->container = $container;
-        $this->service = new \Songdom\Service\Songs([
+        $this->service = new \Songdom\Service\Song([
             'db' => $this->container['db']
             ]
         );
@@ -24,6 +24,10 @@ class Song
     
     public function getLyrics($request, $response, $args)
     {
+
+        if (empty($request->getQueryParams()['q'])) {
+            return $response->withJson(['error_message' => 'Invalid Request'], 400);
+        }
         
         $searchTerm = $request->getQueryParams()['q'];
 
