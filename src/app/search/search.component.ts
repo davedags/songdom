@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
 import { SpeechRecognitionService } from './speech-recognition.service'
 import { Song, SongService } from './song.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-search',
@@ -20,7 +21,7 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
   speechSupported: boolean;
   speechData: string;
 
-  constructor(private songService: SongService, private speechRecognitionService: SpeechRecognitionService) {
+  constructor(private songService: SongService, private speechRecognitionService: SpeechRecognitionService, private router: Router) {
     this.speechData = '';
     this.haveSearched = false;
     this.searchTerm = '';
@@ -94,7 +95,10 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
               },
               //completion
               () => {
-                this.activateSpeechSearch();
+                if (this.router.url === '/') {
+                  console.log('completion and activating speech again');
+                  this.activateSpeechSearch();
+                }
               });
     }
   }

@@ -5,10 +5,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { LoginComponent } from './login.component';
-import { SignupComponent } from './signup.component';
 
 const userRoutes: Routes = [
-    { path: 'signup', component: SignupComponent },
     { path: 'login', component: LoginComponent }
 ];
 
