@@ -11,6 +11,8 @@ import { UiSwitchModule } from 'angular2-ui-switch/src';
 import { SearchComponent } from './search.component';
 import { SongDetailComponent } from './song-detail.component';
 
+import { SearchRoutingModule } from './search-routing.module';
+
 @NgModule({
     declarations: [
         SearchComponent,
@@ -21,11 +23,9 @@ import { SongDetailComponent } from './song-detail.component';
         FormsModule,
         HttpModule,
         AlertModule.forRoot(),
-        UiSwitchModule
-    ],
-    exports: [ SearchComponent ],
-    providers: [],
-    
+        UiSwitchModule,
+        SearchRoutingModule
+    ]
 })
 
 export class SearchModule { }
