@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, OnDestroy } from '@angular/core';
-import { SpeechRecognitionService } from '../speech-recognition.service'
-import { Song, SongService } from '../song.service';
+import { SpeechRecognitionService } from './speech-recognition.service'
+import { Song, SongService } from './song.service';
 
 @Component({
   selector: 'app-search',

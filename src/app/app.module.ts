@@ -3,17 +3,23 @@ import { NgModule } from '@angular/core';
 
 /* App Root */
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module'
+/* Features Modules and Components */
 
-/* Features Modules */
 import { SearchModule } from './search/search.module';
+import { SignupComponent } from './signup/signup.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignupComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    SearchModule
+    SearchModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
