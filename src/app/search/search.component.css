@@ -1,0 +1,10 @@
+.search-options-container {
+    display: flex;
+    align-items: center;
+    float: right;
+}
+
+.ui-switch-container {
+    margin-top: 5px;
+    margin-left: 5px;
+}

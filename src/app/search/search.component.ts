@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, EventEmitter } from '@angular/core';
 import { SpeechRecognitionService } from './speech-recognition.service'
 import { Song, SongService } from './song.service';
 import {Router} from "@angular/router";
@@ -20,6 +20,7 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
   speechListening: boolean;
   speechSupported: boolean;
   speechData: string;
+  public focusTriggerEventEmitter = new EventEmitter<boolean>();
 
   constructor(private songService: SongService, private speechRecognitionService: SpeechRecognitionService, private router: Router) {
     this.speechData = '';
@@ -34,8 +35,12 @@ export class SearchComponent implements AfterViewInit, OnDestroy {
       this.speechListening = false;
     }
   }
+  focusInput() {
+    this.focusTriggerEventEmitter.emit(true);
+  }
 
   ngAfterViewInit() {
+    this.focusInput();
     this.activateSpeechSearch();
   }
 

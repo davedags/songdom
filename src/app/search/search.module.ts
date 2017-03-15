@@ -10,6 +10,7 @@ import { UiSwitchModule } from 'angular2-ui-switch/src';
 
 import { SearchComponent } from './search.component';
 import { SongDetailComponent } from './song-detail.component';
+import { FocusModule } from '../focus/focus.module';
 
 import { SearchRoutingModule } from './search-routing.module';
 
@@ -24,8 +25,9 @@ import { SearchRoutingModule } from './search-routing.module';
         HttpModule,
         AlertModule.forRoot(),
         UiSwitchModule,
+        FocusModule,
         SearchRoutingModule
     ]
 })
 
-export class SearchModule { }
+export class SearchModule {}

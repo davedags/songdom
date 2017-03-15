@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module'
 import { UserModule } from './user/user.module';
 import { SearchModule } from './search/search.module';
 
-
 @NgModule({
   declarations: [
     AppComponent

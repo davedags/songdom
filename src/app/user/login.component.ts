@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from './user';
+import { Component, AfterViewInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements AfterViewInit {
+    user: any = {};
+    public focusTriggerEventEmitter = new EventEmitter<boolean>();
 
-  user: any = {};
+    ngAfterViewInit() {
+        this.focusInput();
+    }
+    focusInput() {
+        this.focusTriggerEventEmitter.emit(true);
+    }
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
+    login() {
+        console.log('user: ' + this.user.username + ' | password: ' + this.user.password);
+    }
+    
+    register() {
+        console.log('user: ' + this.user.username + ' | password: ' + this.user.password);
+    }
 }

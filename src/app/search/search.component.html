@@ -1,10 +1,10 @@
 <div class="page-content">
   <form #searchForm="ngForm">
-    <div style="display:flex; align-items: center; float:right;" *ngIf="speechSupported">
+    <div class="search-options-container" *ngIf="speechSupported">
      <span class="small">Voice Search:</span>
-      <div style="margin-top:5px;margin-left:5px;"><ui-switch [(ngModel)]="speechListening" name="speechListening" size="small" data-toggle="tooltip" data-placement="bottom" title="Automatic Voice Search"></ui-switch></div>
+      <div class="ui-switch-container"><ui-switch [(ngModel)]="speechListening" name="speechListening" size="small" data-toggle="tooltip" data-placement="bottom" title="Automatic Voice Search"></ui-switch></div>
     </div>
-    <input [(ngModel)]="searchTerm" name="searchQuery" type="search" placeholder="Enter Song Name ..." class="form-control input-md" #searchInput required autofocus/>
+    <input [(ngModel)]="searchTerm" [focus]="focusTriggerEventEmitter" name="searchQuery" type="search" placeholder="Enter Song Name ..." class="form-control input-md" #searchInput required autofocus/>
     <div class="search-btn-group">
       <button (click)="getSong()" name="search" class="btn btn-primary" [disabled]="!searchForm.form.valid">Find My Song</button>
       <button (click)="clearSearch(searchInput)" *ngIf="searchTerm" name="clear" class = "btn">Clear</button>
