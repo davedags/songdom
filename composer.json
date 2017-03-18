@@ -3,7 +3,8 @@
   "description": "Search engine for song lyrics, ad free and with voice control",
   "require" : {
     "slim/slim": "^3.0",
-    "vlucas/phpdotenv": "^2.0"
+    "vlucas/phpdotenv": "^2.0",
+    "doctrine/orm": "^2.5"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.0"

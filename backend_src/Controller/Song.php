@@ -17,7 +17,7 @@ class Song
     {
         $this->container = $container;
         $this->service = new \Songdom\Service\Song([
-            'db' => $this->container['db']
+            'em' => $this->container['em']
             ]
         );
     }

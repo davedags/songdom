@@ -11,11 +11,11 @@ namespace Songdom\Service;
 class Song
 {
 
-    protected $db = null;
+    protected $em = null;
     public function __construct(array $args = []) 
     {
-        if (!empty($args['db'])) {
-            $this->db = $args['db'];
+        if (!empty($args['em'])) {
+            $this->em = $args['em'];
         }
     }
 
@@ -25,21 +25,22 @@ class Song
             'url' => null,
             'lyrics' => []
         ];
+
         if (!empty($args['keywords'])) {
             $keywords = $args['keywords'];
             $song = $this->getSongByKeywords($keywords);
-         
+
             if ($song) {
                 $data = [
                     'url' => $song['url'],
                     'lyrics' => $song['lyrics']
                 ];
             } else {
-             
                 $searchurl = 'http://songmeanings.com/query/?query=' . urlencode($keywords);
                 $resp = file_get_contents($searchurl);
                 preg_match_all('|//songmeanings\.com/songs/view/(\d+)/|i', $resp, $matches);
                 $matches = array_values(array_unique($matches[0]));
+
                 if (is_array($matches) && !empty($matches[0])) {
                     $url = trim($matches[0]);
                     $song = $this->getSongByURL($url);
@@ -76,8 +77,7 @@ class Song
             
             $song_data = [
                 'url' => $url,
-                'lyrics' => serialize($lyrics),
-                'created' => date('Y-m-d H:i:s')
+                'lyrics' => serialize($lyrics)
             ];
             if (!empty($args['keywords'])) {
                 $song_data['keywords'] = $args['keywords'];
@@ -86,12 +86,7 @@ class Song
         }
         return $lyrics;
     }
-    
-    public function getSongByTitle($title) 
-    {
-        return $this->getSong('title', $title);
-    }
-    
+
     public function getSongByKeywords($keywords) 
     {
         return $this->getSong('keywords', $keywords);
@@ -106,50 +101,48 @@ class Song
      * get song from local db by a field match
      * 
      **/
-    public function getSong($field, $match) 
+    public function getSong($field, $match)
     {
         if (!$this->usingDB()) {
             return false;
         }
-        $sql = "select song_id, title, lyrics, url from song where $field = " . $this->db->quote($match);
+
+        $query = $this->em->createQuery('SELECT s FROM \Songdom\Entities\Song s WHERE s.' . $field . ' = :value');
+        $query->setParameter('value', $match);
+
         try {
-            $stmt = $this->db->query($sql);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
+            $song = $query->getSingleResult();
+        } catch (\Doctrine\ORM\NoResultException $e) {
             return false;
         }
-        $row = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        $song_data = false;
 
-        if (is_array($row) && isset($row[0]) && is_array($row[0]) && ($lyrics = $row[0]['lyrics'])) {
-            $song_data = [
-                'song_id' => $row[0]['song_id'],
-                'url' => $row[0]['url'],
-                'lyrics' => unserialize($row[0]['lyrics'])
-            ];
-        } 
-        return $song_data;
+        return [
+            'song_id' => $song->getId(),
+            'url' => $song->getUrl(),
+            'lyrics' => unserialize($song->getLyrics())
+        ];
     }
 
-    public function saveSong($song) 
+    public function saveSong($songData)
     {
         if (!$this->usingDB()) {
             return false;
         }
-        $prepare_sql = "insert into song (" . implode(", ", array_keys($song)) . ") values (" . implode(", ", array_map(function($x) { return ":" . $x; }, array_keys($song))) . ")";
-        
-        $stmt = $this->db->prepare($prepare_sql);
-        try {
-            $stmt->execute($song);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            return false;
+
+        $song = new \Songdom\Entities\Song();
+        $song->setUrl($songData['url']);
+        $song->setLyrics($songData['lyrics']);
+        if (!empty($songData['keywords'])) {
+            $song->setKeywords($songData['keywords']);
         }
+        $this->em->persist($song);
+        $this->em->flush();
+
         return true;
     }
 
     public function usingDB() {
-        if (is_object($this->db)) {
+        if (is_object($this->em)) {
             return true;
         } else{
             return false;

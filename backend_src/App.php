@@ -10,38 +10,24 @@ class App
 
     private $app;
 
-    public function __construct() 
+    public function __construct($args = [])
     {
-        $config = [];
 
-        if (file_exists(__DIR__ . '/config/.env')) {
-            $dotenv = new \Dotenv\Dotenv(__DIR__ . '/config');
-            $dotenv->load();
-            
-            $config['db']['host'] = $_ENV['SONGDOM_DB_HOST'];
-            $config['db']['dbname'] = $_ENV['SONGDOM_DB'];
-            $config['db']['user'] = $_ENV['SONGDOM_DB_USER'];
-            $config['db']['pass'] = $_ENV['SONGDOM_DB_PASSWORD'];
-        } 
-        
+        $config = [];
+        if ($this->debugMode()) {
+            $config['displayErrorDetails'] = true;
+        }
+
         $app = new \Slim\App([
             'settings' => $config
         ]);
-        
+
         $container = $app->getContainer();
-        
-        if (!empty($config['db'])) {
-            $container['db'] = function ($c) {
-                $db = $c['settings']['db'];
-                $pdo = new \PDO("mysql:host=" . $db['host'] . ";dbname=" . $db['dbname'], $db['user'], $db['pass']);
-                $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-                $pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
-                return $pdo;
-            };
-        } else {
-            $container['db'] = null;
-        }
-                
+
+        $container['em'] = function () {
+            return $this->getDoctrineEntityManager();
+        };
+
         $app->options('/{routes:.+}', function ($request, $response, $args) {
             return $response;
         });
@@ -49,6 +35,7 @@ class App
         $app->add(function ($req, $res, $next) {
             $response = $next($req, $res);
             return $response
+                ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -60,11 +47,49 @@ class App
         $this->app = $app;
     }
 
-    public function getApp() {
+    public function getDoctrineEntityManager()
+    {
+        $entityManager = false;
+        if ($dbConfig = self::getDBConfig()) {
+            $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration([__DIR__ . "/Entities"]);
+            $conn = array_merge(['driver' => 'pdo_mysql'], $dbConfig);
+            $entityManager = \Doctrine\ORM\EntityManager::create($conn, $config);
+        }
+        return $entityManager;
+    }
+
+    public static function getDBConfig()
+    {
+        $config = [];
+        if (file_exists(__DIR__ . '/config/.env')) {
+            $dotenv = new \Dotenv\Dotenv(__DIR__ . '/config');
+            $dotenv->load();
+
+            $config['host'] = $_ENV['SONGDOM_DB_HOST'];
+            $config['dbname'] = $_ENV['SONGDOM_DB'];
+            $config['user'] = $_ENV['SONGDOM_DB_USER'];
+            $config['password'] = $_ENV['SONGDOM_DB_PASSWORD'];
+            if (!empty($_ENV['driver'])) {
+                $config['driver'] = $_ENV['driver'];
+            }
+        }
+        return $config;
+    }
+
+    public function debugMode()
+    {
+        if (!empty($_GET['debug'])) {
+            return true;
+        }
+    }
+
+    public function getApp()
+    {
         return $this->app;
     }
     
-    public function run() {
+    public function run()
+    {
         $this->getApp()->run();
     }
 
