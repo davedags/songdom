@@ -29,10 +29,10 @@ class Song
             return $response->withJson(['error_message' => 'Invalid Request'], 400);
         }
         
-        $searchTerm = $request->getQueryParams()['q'];
+        $search_term = $request->getQueryParams()['q'];
 
         $songData = $this->service->getLyricsByKeywords([
-            'keywords' => $searchTerm
+            'keywords' => $search_term
         ]);
 
         return $response->withJson($songData);

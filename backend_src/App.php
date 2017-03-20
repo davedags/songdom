@@ -49,13 +49,13 @@ class App
 
     public function getDoctrineEntityManager()
     {
-        $entityManager = false;
-        if ($dbConfig = self::getDBConfig()) {
+        $entity_manager = false;
+        if ($db_config = self::getDBConfig()) {
             $config = \Doctrine\ORM\Tools\Setup::createAnnotationMetadataConfiguration([__DIR__ . "/Entities"]);
-            $conn = array_merge(['driver' => 'pdo_mysql'], $dbConfig);
-            $entityManager = \Doctrine\ORM\EntityManager::create($conn, $config);
+            $conn = array_merge(['driver' => 'pdo_mysql'], $db_config);
+            $entity_manager = \Doctrine\ORM\EntityManager::create($conn, $config);
         }
-        return $entityManager;
+        return $entity_manager;
     }
 
     public static function getDBConfig()

@@ -17,6 +17,7 @@ export class LoginComponent implements AfterViewInit {
     }
 
     login() {
+        
         console.log('user: ' + this.user.username + ' | password: ' + this.user.password);
     }
     

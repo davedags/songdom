@@ -36,8 +36,8 @@ class Song
                     'lyrics' => $song['lyrics']
                 ];
             } else {
-                $searchurl = 'http://songmeanings.com/query/?query=' . urlencode($keywords);
-                $resp = file_get_contents($searchurl);
+                $search_url = 'http://songmeanings.com/query/?query=' . urlencode($keywords);
+                $resp = file_get_contents($search_url);
                 preg_match_all('|//songmeanings\.com/songs/view/(\d+)/|i', $resp, $matches);
                 $matches = array_values(array_unique($matches[0]));
 
@@ -123,17 +123,17 @@ class Song
         ];
     }
 
-    public function saveSong($songData)
+    public function saveSong($song_data)
     {
         if (!$this->usingDB()) {
             return false;
         }
 
         $song = new \Songdom\Entities\Song();
-        $song->setUrl($songData['url']);
-        $song->setLyrics($songData['lyrics']);
-        if (!empty($songData['keywords'])) {
-            $song->setKeywords($songData['keywords']);
+        $song->setUrl($song_data['url']);
+        $song->setLyrics($song_data['lyrics']);
+        if (!empty($song_data['keywords'])) {
+            $song->setKeywords($song_data['keywords']);
         }
         $this->em->persist($song);
         $this->em->flush();
