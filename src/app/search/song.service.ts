@@ -10,8 +10,7 @@ export class Song {
 @Injectable()
 export class SongService {
 
-  private apiUrl = environment.searchAPIUrl;
-
+  private apiUrl = environment.baseAPIUrl + "/search";
   constructor(private http: Http) {}
 
   getSong(searchTerm: string): Promise<Song> {

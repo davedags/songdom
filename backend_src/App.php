@@ -41,9 +41,10 @@ class App
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
         });
         
+        //Routes
         $app->get('/search', 'Songdom\Controller\Song:getLyrics');
-        
-        
+        $app->post('/users', 'Songdom\Controller\User:create');
+                
         $this->app = $app;
     }
 

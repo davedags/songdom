@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy, EventEmitter } from '@angular/core';
 import { SpeechRecognitionService } from './speech-recognition.service'
 import { Song, SongService } from './song.service';
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-search',
